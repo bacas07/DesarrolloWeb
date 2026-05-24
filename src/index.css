@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply text-gray-900 antialiased;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
+@layer components {
+  .prose-sm p {
+    @apply mb-3;
+  }
+  
+  .prose-sm ul {
+    @apply list-disc list-inside mb-3 space-y-1;
+  }
+
+  .prose-sm strong {
+    @apply font-semibold text-gray-900;
+  }
+}
