@@ -29,3 +29,50 @@
     @apply font-semibold text-gray-900;
   }
 }
+
+/* ── Estilos para respuesta markdown de Grok ─────────────── */
+.ai-markdown-body h1,
+.ai-markdown-body h2,
+.ai-markdown-body h3 {
+  @apply font-semibold text-gray-900 mt-5 mb-2;
+}
+
+.ai-markdown-body h1 { @apply text-lg; }
+.ai-markdown-body h2 { @apply text-base border-b border-gray-100 pb-1; }
+.ai-markdown-body h3 { @apply text-sm; }
+
+.ai-markdown-body p {
+  @apply mb-3 leading-relaxed;
+}
+
+.ai-markdown-body ul,
+.ai-markdown-body ol {
+  @apply mb-3 pl-5 space-y-1;
+}
+
+.ai-markdown-body ul { @apply list-disc; }
+.ai-markdown-body ol { @apply list-decimal; }
+
+.ai-markdown-body li {
+  @apply text-sm text-gray-700;
+}
+
+.ai-markdown-body strong {
+  @apply font-semibold text-gray-900;
+}
+
+.ai-markdown-body em {
+  @apply italic text-gray-600;
+}
+
+.ai-markdown-body code {
+  @apply bg-gray-100 text-blue-700 text-xs font-mono px-1.5 py-0.5 rounded;
+}
+
+.ai-markdown-body blockquote {
+  @apply border-l-4 border-purple-300 pl-4 italic text-gray-500 my-3;
+}
+
+.ai-markdown-body > *:first-child {
+  @apply mt-0;
+}

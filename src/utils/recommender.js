@@ -29,15 +29,23 @@ export function recommend(inputs) {
   // ── 1. SELECCIÓN DE FIREWALL ──────────────────────────────
   const requiredFWThroughput = throughputGbps * CALC_CONSTANTS.OVERSIZE_FACTOR
 
-  // Filtra por throughput mínimo, luego por rango de usuarios
-  const eligibleFWs = FIREWALLS.filter(fw =>
-    fw.throughputFW >= requiredFWThroughput &&
-    fw.targetUsers[0] <= users * CALC_CONSTANTS.OVERSIZE_FACTOR
+  // PASO A: filtrar únicamente por throughput mínimo requerido
+  const byThroughput = FIREWALLS.filter(fw =>
+    fw.throughputFW >= requiredFWThroughput
   )
 
-  // Ordenar por throughput ascendente (elegir el más ajustado que cumple)
-  eligibleFWs.sort((a, b) => a.throughputFW - b.throughputFW)
-  const firewall = eligibleFWs[0] || FIREWALLS[FIREWALLS.length - 1]
+  // PASO B: de los que cumplen throughput, preferir los que el rango de usuarios sea compatible
+  const ideal = byThroughput.filter(fw =>
+    users >= fw.targetUsers[0] && users <= fw.targetUsers[1]
+  )
+
+  // PASO C: elegir el modelo de menor throughput (el más ajustado que cumple)
+  // Prioridad: ideal > cualquiera que cumpla throughput > el más pequeño del catálogo
+  const candidatePool = ideal.length > 0 ? ideal : byThroughput
+  candidatePool.sort((a, b) => a.throughputFW - b.throughputFW)
+
+  // Si ninguno cumple throughput (caso extremo > 145 Gbps), tomar el mayor disponible
+  const firewall = candidatePool[0] || FIREWALLS[FIREWALLS.length - 1]
 
   // ── 2. SELECCIÓN DE SWITCH ────────────────────────────────
   // Número de puertos necesarios con margen
